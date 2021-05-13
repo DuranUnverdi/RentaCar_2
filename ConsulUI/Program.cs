@@ -10,12 +10,17 @@ namespace ConsulUI
     {
         static void Main(string[] args)
         {
-            //CarTest();
+            CarTest();
             //RentInfoTest();
+            // NewMethod();
+        }
+
+        private static void NewMethod()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var car in carManager.GetCarDetails())
+            foreach (var car in carManager.GetCarDetails().Data)
             {
-                Console.WriteLine(car.BrandName + " " + car.Description + " " + car.DailyPrice+" "+car.ColorName+" "+car.VehicleName+" "+car.ModelYear);
+                Console.WriteLine(car.BrandName + " " + car.Description + " " + car.DailyPrice + " " + car.ColorName + " " + car.VehicleName + " " + car.ModelYear);
             }
         }
 
@@ -31,10 +36,19 @@ namespace ConsulUI
         private static void CarTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var car in carManager.GetByUnitPrice(100, 200))
+            var result = carManager.GetByUnitPrice(100, 200);
+            if (result.Success)
             {
-                Console.WriteLine(car.BrandId + " " + car.Description + " " + car.DailyPrice);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.BrandId + " " + car.Description + " " + car.DailyPrice);
+                }
             }
+            else
+            {
+                Console.Write(result.Message);
+            }
+
         }
     }
 }
