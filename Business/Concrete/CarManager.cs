@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -16,6 +17,12 @@ namespace Business.Concrete
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
+        }
+
+        public IResult Add(Car car)
+        {
+          _carDal.Add(car);
+            return new Result(true,"ürün eklendi");
         }
 
         public List<Car> GetAll()
